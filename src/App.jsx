@@ -17,10 +17,9 @@ export const goodsFromServer = [
 ];
 const SORT_FIELD_ALPHABET = 'alphabet';
 const SORT_FIELD_LENGTH = 'length';
-const SORT_FIELD_REVERSE = 'reverse';
 
 function sortGoods(goods, sortField, isReversed) {
-  let preparedGoods = [...goods];
+  const preparedGoods = [...goods];
 
   if (sortField === SORT_FIELD_ALPHABET) {
     preparedGoods.sort();
@@ -36,17 +35,18 @@ function sortGoods(goods, sortField, isReversed) {
 }
 
 export const App = () => {
-  const [sortField, setSortField] = useState('')
+  const [sortField, setSortField] = useState('');
   const [isReversed, setIsReversed] = useState(false);
-  const visibleGoods = sortGoods(goodsFromServer, sortField, isReversed)
+  const visibleGoods = sortGoods(goodsFromServer, sortField, isReversed);
 
   return (
     <div className="section content">
-
       <div className="buttons">
         <button
           type="button"
-          className={cn('button', 'is-success', { 'is-light': sortField !== SORT_FIELD_ALPHABET })}
+          className={cn('button', 'is-success', {
+            'is-light': sortField !== SORT_FIELD_ALPHABET,
+          })}
           onClick={() => setSortField(SORT_FIELD_ALPHABET)}
         >
           Sort alphabetically
@@ -54,7 +54,9 @@ export const App = () => {
 
         <button
           type="button"
-          className={cn('button', 'is-success', { 'is-light': sortField !== SORT_FIELD_LENGTH })}
+          className={cn('button', 'is-success', {
+            'is-light': sortField !== SORT_FIELD_LENGTH,
+          })}
           onClick={() => setSortField(SORT_FIELD_LENGTH)}
         >
           Sort by length
@@ -62,7 +64,9 @@ export const App = () => {
 
         <button
           type="button"
-          className={cn('button', 'is-warning', { 'is-light': sortField !== SORT_FIELD_REVERSE })}
+          className={cn('button', 'is-warning', {
+            'is-light': !isReversed,
+          })}
           onClick={() => setIsReversed(!isReversed)}
         >
           Reverse
@@ -71,7 +75,9 @@ export const App = () => {
         <button
           type="button"
           className="button is-danger is-light"
-          style={{ display: sortField !== '' ? 'none' : 'inline-block' }}
+          style={{
+            display: sortField !== '' || isReversed ? 'none' : 'inline-block',
+          }}
           onClick={() => setSortField('')}
         >
           Reset
@@ -79,8 +85,12 @@ export const App = () => {
       </div>
 
       <ul>
-        {visibleGoods.map(good => (<li data-cy="Good">{good}</li>))}
+        {visibleGoods.map(good => (
+          <li data-cy="Good" key={good}>
+            {good}
+          </li>
+        ))}
       </ul>
-    </div >
-  )
+    </div>
+  );
 };
